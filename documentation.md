@@ -14,7 +14,7 @@ von Peter Schreivogel
 
 ### A. Drei funktionalen Anforderungen
 
-1. Als Besucher kann ich keine Informationen über Buchungen anfragen.
+1. Als Besucher kann ich eine Login-Seite sehen
 2. Als Mitglied kann ich sehen, welche Coworking Spaces wann gebucht sind.
 3. Als Mitglied kann ich einen Grund für eine Buchung angeben, sodass der
    Administrator weiss wofür ich die Coworking Space brauche.
@@ -48,9 +48,7 @@ von Peter Schreivogel
 | --------------------------------------- | ------------- | ----- | ---------- | ---------------------- | --------------------------------------------- |
 | ![Administrator](img/administrator.jpg) | Batuhan Avsar | 19    | M          | Applikationsentwickler | Neue Web-Applikation an Investoren vorstellen |
 
-\pagebreak
-
-## 1.3. Anwendungsfalldiagramm
+![Anwendungsfalldiagramm](img/usecase.svg)
 
 \pagebreak
 
