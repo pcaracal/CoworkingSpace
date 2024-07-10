@@ -50,11 +50,7 @@ von Peter Schreivogel
 
 ![Anwendungsfalldiagramm](img/usecase.svg)
 
-\pagebreak
-
-# 2. Persistenzschicht planen
-
-## 2.4. Fachklassendiagramm
+![Fachklassendiagramm](img/class.svg)
 
 \pagebreak
 

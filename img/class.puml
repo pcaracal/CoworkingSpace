@@ -1,0 +1,38 @@
+@startuml
+title 2.4. Fachklassendiagramm
+scale 1000
+
+class User {
+  int id
+  boolean is_admin
+  String first_name
+  String last_name
+  String email
+  String password
+  Date created_at
+}
+
+class Room {
+  int id
+  String name  
+}
+
+class Booking {
+  int id
+  String reason
+  BookingDuration duration
+  boolean is_approved
+  --
+  int fk_room_id
+  int fk_user_id
+}
+
+enum BookingDuration
+BookingDuration : Morning
+BookingDuration : Afternoon
+BookingDuration : Day
+
+User "1" --- "0..*" Booking
+Room "1" --- "0..*" Booking
+Booking - BookingDuration
+@enduml
