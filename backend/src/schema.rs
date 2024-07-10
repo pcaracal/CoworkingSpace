@@ -5,7 +5,7 @@ diesel::table! {
         id -> Nullable<Integer>,
         reason -> Text,
         duration -> Text,
-        is_approved -> Nullable<Bool>,
+        status -> Text,
         fk_room_id -> Integer,
         fk_user_id -> Integer,
         created_at -> Nullable<Timestamp>,
@@ -34,4 +34,8 @@ diesel::table! {
 diesel::joinable!(booking -> room (fk_room_id));
 diesel::joinable!(booking -> user (fk_user_id));
 
-diesel::allow_tables_to_appear_in_same_query!(booking, room, user,);
+diesel::allow_tables_to_appear_in_same_query!(
+    booking,
+    room,
+    user,
+);

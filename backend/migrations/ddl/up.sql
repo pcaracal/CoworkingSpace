@@ -17,7 +17,7 @@ create table booking (
   id integer primary key autoincrement,
   reason text not null,
   duration text not null,
-  is_approved boolean default false,
+  status text not null,
   fk_room_id integer not null,
   fk_user_id integer not null,
   created_at datetime default current_timestamp,

@@ -1,10 +1,11 @@
+pub mod auth;
 pub mod models;
 pub mod schema;
 pub mod util;
 
 use dotenvy::dotenv;
 use rocket_cors::{AllowedHeaders, AllowedOrigins};
-use util::setup_logger;
+use util::{load_test_data, setup_logger};
 
 #[macro_use]
 extern crate rocket;
@@ -16,6 +17,11 @@ extern crate log;
 fn rocket() -> _ {
     setup_logger();
     dotenv().ok();
+
+    #[cfg(debug_assertions)]
+    info!("Running in debug mode");
+    load_test_data();
+    #[cfg(not(debug_assertions))]
 
     info!("Starting rocket");
     let cors = rocket_cors::CorsOptions::default()
