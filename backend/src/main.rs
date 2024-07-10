@@ -1,23 +1,16 @@
+pub mod models;
+pub mod schema;
+pub mod util;
+
 use dotenvy::dotenv;
-use log::LevelFilter;
 use rocket_cors::{AllowedHeaders, AllowedOrigins};
-use simplelog::{ColorChoice, Config, TermLogger, TerminalMode};
+use util::setup_logger;
 
 #[macro_use]
 extern crate rocket;
 
 #[macro_use]
 extern crate log;
-
-fn setup_logger() {
-    TermLogger::init(
-        LevelFilter::Info,
-        Config::default(),
-        TerminalMode::Mixed,
-        ColorChoice::Always,
-    )
-    .unwrap();
-}
 
 #[launch]
 fn rocket() -> _ {
