@@ -1,5 +1,5 @@
 ---
-geometry: margin=2cm
+geometry: margin=1.5cm
 ---
 
 # Dokumentation M223 LB-B
@@ -26,7 +26,29 @@ von Peter Schreivogel
 2. Coworking Spaces können nicht doppelt gebucht werden
 3. Sämtliche Requests müssen geloggt werden um Fehler und Threat Actors zu entdecken
 
+\pagebreak
+
 ## 1.2. Persona
+
+### P1: Besucher
+
+| Bild                          | Name        | Alter | Geschlecht | Beruf        | Grund             |
+| ----------------------------- | ----------- | ----- | ---------- | ------------ | ----------------- |
+| ![Besucher](img/besucher.jpg) | John Johnes | 35    | M          | SCRUM Master | Stand-up meetings |
+
+### P2: Mitglied
+
+| Bild                          | Name        | Alter | Geschlecht | Beruf                 | Grund                           |
+| ----------------------------- | ----------- | ----- | ---------- | --------------------- | ------------------------------- |
+| ![Mitglied](img/mitglied.jpg) | Jane Johnes | 24    | F          | Systemadministratorin | Systemmigration planen mit Team |
+
+### P3: Administrator
+
+| Bild                                    | Name          | Alter | Geschlecht | Beruf                  | Grund                                         |
+| --------------------------------------- | ------------- | ----- | ---------- | ---------------------- | --------------------------------------------- |
+| ![Administrator](img/administrator.jpg) | Batuhan Avsar | 19    | M          | Applikationsentwickler | Neue Web-Applikation an Investoren vorstellen |
+
+\pagebreak
 
 ## 1.3. Anwendungsfalldiagramm
 
