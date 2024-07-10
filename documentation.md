@@ -58,4 +58,20 @@ von Peter Schreivogel
 
 ## 3.5. Schnittstellenplanung
 
-## 3.6. Sequenzdiagramm
+- Mitglied erhält nur seine eigenen Buchungen
+- Administrator erhält alle Buchungen
+
+| Methode                | Endpunkt       | Erfolgs- und Fehlerfälle            |
+| ---------------------- | -------------- | ----------------------------------- |
+| GET (Mitglied)         | /bookings      | Erfolge: 200, Fehler: 401           |
+| POST (Mitglied)        | /bookings      | Erfolge: 201, Fehler: 401, 409, 422 |
+| PATCH (Administrator)  | /bookings/{id} | Erfolge: 200, Fehler: 401, 404, 422 |
+| DELETE (Mitglied)      | /bookings/{id} | Erfolge: 204, Fehler: 401           |
+| GET (Administrator)    | /users         | Erfolge: 200, Fehler: 401           |
+| POST (Administrator)   | /users         | Erfolge: 201, Fehler: 401, 409, 422 |
+| PATCH (Administrator)  | /users/{id}    | Erfolge: 200, Fehler: 401, 404, 422 |
+| DELETE (Administrator) | /users/{id}    | Erfolge: 204, Fehler: 401           |
+| POST (Besucher)        | /login         | Erfolge: 200, Fehler: 401           |
+| POST (Besucher)        | /register      | Erfolge: 200, Fehler: 409           |
+
+![Sequenzdiagramm](img/sequence.svg)
