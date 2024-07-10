@@ -61,17 +61,35 @@ von Peter Schreivogel
 - Mitglied erhält nur seine eigenen Buchungen
 - Administrator erhält alle Buchungen
 
-| Methode                | Endpunkt       | Erfolgs- und Fehlerfälle            |
-| ---------------------- | -------------- | ----------------------------------- |
-| GET (Mitglied)         | /bookings      | Erfolge: 200, Fehler: 401           |
-| POST (Mitglied)        | /bookings      | Erfolge: 201, Fehler: 401, 409, 422 |
-| PATCH (Administrator)  | /bookings/{id} | Erfolge: 200, Fehler: 401, 404, 422 |
-| DELETE (Mitglied)      | /bookings/{id} | Erfolge: 204, Fehler: 401           |
-| GET (Administrator)    | /users         | Erfolge: 200, Fehler: 401           |
-| POST (Administrator)   | /users         | Erfolge: 201, Fehler: 401, 409, 422 |
-| PATCH (Administrator)  | /users/{id}    | Erfolge: 200, Fehler: 401, 404, 422 |
-| DELETE (Administrator) | /users/{id}    | Erfolge: 204, Fehler: 401           |
-| POST (Besucher)        | /login         | Erfolge: 200, Fehler: 401           |
-| POST (Besucher)        | /register      | Erfolge: 200, Fehler: 409           |
+| Methode                | Endpunkt       | Erfolgs- und Fehlerfälle                         |
+| ---------------------- | -------------- | ------------------------------------------------ |
+| GET (Mitglied)         | /bookings      | Erfolge: 200: Ok                                 |
+|                        |                | Fehler: 401: Unauthorized                        |
+| POST (Mitglied)        | /bookings      | Erfolge: 201: Created                            |
+|                        |                | Fehler: 401: Unauthorized                        |
+|                        |                | 409: Conflict (Raum schon gebucht)               |
+|                        |                | 422: Unprocessable Entity                        |
+| PATCH (Administrator)  | /bookings/{id} | Erfolge: 200: Ok                                 |
+|                        |                | Fehler: 401: Unauthorized                        |
+|                        |                | 404: Not Found                                   |
+|                        |                | 422: Unprocessable Entity                        |
+| DELETE (Mitglied)      | /bookings/{id} | Erfolge: 204: No Content                         |
+|                        |                | Fehler: 401: Unauthorized                        |
+| GET (Administrator)    | /users         | Erfolge: 200: Ok                                 |
+|                        |                | Fehler: 401: Unauthorized                        |
+| POST (Administrator)   | /users         | Erfolge: 201: Created                            |
+|                        |                | Fehler: 401: Unauthorized                        |
+|                        |                | 409: Conflict (Benutzer existiert schon)         |
+|                        |                | 422: Unprocessable Entity                        |
+| PATCH (Administrator)  | /users/{id}    | Erfolge: 200: Ok                                 |
+|                        |                | Fehler: 401: Unauthorized                        |
+|                        |                | 404: Not Found                                   |
+|                        |                | 422: Unprocessable Entity                        |
+| DELETE (Administrator) | /users/{id}    | Erfolge: 204: No Content                         |
+|                        |                | Fehler: 401: Unauthorized                        |
+| POST (Besucher)        | /login         | Erfolge: 200: Ok                                 |
+|                        |                | Fehler: 401: Unauthorized                        |
+| POST (Besucher)        | /register      | Erfolge: 200: Ok                                 |
+|                        |                | Fehler: 409: Conflict (Benutzer existiert schon) |
 
 ![Sequenzdiagramm](img/sequence.svg)
