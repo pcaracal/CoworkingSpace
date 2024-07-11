@@ -98,3 +98,28 @@ pub fn post_bookings(
         Err(Status::InternalServerError)
     }
 }
+
+#[allow(clippy::missing_errors_doc, clippy::module_name_repetitions)]
+#[openapi(tag = "Bookings")]
+#[delete("/bookings/<id>")]
+pub fn delete_bookings(id: i32, token: Token) -> Result<Status, Status> {
+    let Some(user) = auth::user_from_token(token.0) else {
+        return Err(Status::Unauthorized);
+    };
+    info!("DELETE /bookings/{id:?} called by user: {:?}", user.email);
+
+    let Some(booking) = Booking::by_id(id) else {
+        return Ok(Status::NoContent);
+    };
+    let is_admin = user.is_admin.unwrap_or_default();
+
+    if booking.fk_user_id == user.id.unwrap_or_default() || is_admin {
+        if Booking::delete(id) {
+            Ok(Status::NoContent)
+        } else {
+            Err(Status::InternalServerError)
+        }
+    } else {
+        Err(Status::Forbidden)
+    }
+}
