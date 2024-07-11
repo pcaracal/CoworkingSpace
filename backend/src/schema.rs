@@ -4,8 +4,9 @@ diesel::table! {
     booking (id) {
         id -> Nullable<Integer>,
         reason -> Text,
-        duration -> Text,
+        duration -> Integer,
         status -> Text,
+        date -> Text,
         fk_room_id -> Integer,
         fk_user_id -> Integer,
         created_at -> Nullable<Timestamp>,

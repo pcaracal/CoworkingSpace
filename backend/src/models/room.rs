@@ -1,7 +1,4 @@
-use diesel::{
-    prelude::*, AsChangeset, ExpressionMethods, Insertable, QueryDsl, Queryable, RunQueryDsl,
-    Selectable,
-};
+use diesel::{prelude::*, ExpressionMethods, QueryDsl, RunQueryDsl};
 use serde::{Deserialize, Serialize};
 
 use crate::{schema::room, util::conn};

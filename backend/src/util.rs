@@ -4,7 +4,11 @@ use diesel::{Connection, SqliteConnection};
 use log::LevelFilter;
 use simplelog::{ColorChoice, Config, TermLogger, TerminalMode};
 
-use crate::models::{room::Room, user::User};
+use crate::models::{
+    booking::{Booking, SerializeBooking},
+    room::Room,
+    user::User,
+};
 
 #[allow(clippy::missing_panics_doc)]
 pub fn setup_logger() {
@@ -25,6 +29,7 @@ pub fn conn() -> SqliteConnection {
     SqliteConnection::establish(&url).expect("Error connecting to {url}")
 }
 
+#[allow(clippy::missing_panics_doc)]
 pub fn load_test_data() {
     warn!("Deleting all data");
     info!(
@@ -45,7 +50,19 @@ pub fn load_test_data() {
     warn!("Loading test rooms");
     info!("{:?}", Room::create("Room 1"));
     info!("{:?}", Room::create("Room 2"));
-    info!("{:?}", Room::create("Room 3"));
-    info!("{:?}", Room::create("Room 4"));
     warn!("Test rooms loaded");
+
+    warn!("Loading test bookings");
+    let b = Booking::create("Reason 1", 0, "2024-07-11", 1, 1);
+    info!("{b:?}");
+    info!("{:?}", Booking::create("Reason 2", 1, "2024-07-11", 1, 1));
+    info!("{:?}", Booking::create("Reason 3", 2, "2024-07-12", 1, 1));
+    info!("{:?}", Booking::create("Reason 4", 2, "2024-07-12", 2, 1));
+    info!("{:?}", Booking::create("Reason 5", 0, "2024-07-13", 1, 1));
+    info!("{:?}", Booking::create("Reason 6", 1, "2024-07-13", 1, 1));
+    warn!("Test bookings loaded");
+
+    warn!("Test booking");
+    info!("{:#?}", SerializeBooking::from_booking(b.unwrap()));
+    warn!("Test booking");
 }
