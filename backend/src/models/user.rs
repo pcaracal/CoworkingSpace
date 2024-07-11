@@ -95,4 +95,17 @@ impl User {
             .first(&mut conn())
             .ok()
     }
+
+    #[must_use]
+    pub fn by_email(email: &str) -> Option<User> {
+        schema::user::table
+            .filter(user::email.eq(email))
+            .first(&mut conn())
+            .ok()
+    }
+
+    #[must_use]
+    pub fn count() -> Option<i64> {
+        schema::user::table.count().get_result(&mut conn()).ok()
+    }
 }
