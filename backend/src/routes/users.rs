@@ -75,7 +75,10 @@ pub fn put_users(id: i32, post_user: Json<PostUser>, token: Token) -> Result<Jso
         return Err(Status::NotFound);
     }
 
-    let updated = User::update(id, post_user.0);
+    let mut post_user = post_user.0;
+    post_user.password = auth::hash_password(&post_user.password);
+
+    let updated = User::update(id, post_user);
 
     match updated {
         Some(u) => Ok(Json(u)),
