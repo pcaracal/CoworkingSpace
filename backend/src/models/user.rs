@@ -1,4 +1,6 @@
 use diesel::{prelude::*, ExpressionMethods, QueryDsl, RunQueryDsl};
+use rocket_okapi::okapi::schemars;
+use rocket_okapi::okapi::schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
 use crate::{
@@ -11,7 +13,15 @@ use crate::{
 };
 
 #[derive(
-    Queryable, PartialEq, Selectable, Insertable, Serialize, Deserialize, Debug, AsChangeset,
+    Queryable,
+    PartialEq,
+    Selectable,
+    Insertable,
+    Serialize,
+    Deserialize,
+    Debug,
+    AsChangeset,
+    JsonSchema,
 )]
 #[diesel(table_name = crate::schema::user)]
 #[diesel(check_for_backend(diesel::sqlite::Sqlite))]
@@ -22,7 +32,7 @@ pub struct User {
     pub last_name: String,
     pub email: String,
     pub password: String,
-    pub created_at: Option<chrono::NaiveDateTime>,
+    pub created_at: Option<String>,
 }
 
 #[allow(clippy::missing_errors_doc, clippy::missing_panics_doc)]

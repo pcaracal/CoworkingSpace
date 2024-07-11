@@ -1,10 +1,17 @@
 pub mod auth;
 pub mod models;
+pub mod routes;
 pub mod schema;
 pub mod util;
 
+use crate::routes::login::post_login;
 use dotenvy::dotenv;
 use rocket_cors::{AllowedHeaders, AllowedOrigins};
+use rocket_okapi::{
+    openapi_get_routes,
+    swagger_ui::{make_swagger_ui, SwaggerUIConfig},
+};
+use routes::login::okapi_add_operation_for_post_login_;
 use util::{load_test_data, setup_logger};
 
 #[macro_use]
@@ -31,5 +38,14 @@ fn rocket() -> _ {
         .to_cors()
         .unwrap();
 
-    rocket::build().attach(cors).mount("/", routes![])
+    rocket::build()
+        .attach(cors)
+        .mount("/", openapi_get_routes![post_login])
+        .mount(
+            "/swagger-ui/",
+            make_swagger_ui(&SwaggerUIConfig {
+                url: "../openapi.json".to_owned(),
+                ..Default::default()
+            }),
+        )
 }
