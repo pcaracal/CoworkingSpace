@@ -7,6 +7,19 @@ use rocket_okapi::okapi::schemars;
 
 use super::{room::Room, user::User};
 
+#[allow(clippy::module_name_repetitions)]
+#[derive(Clone, JsonSchema, Serialize, Deserialize, Debug, AsChangeset)]
+#[diesel(table_name = crate::schema::booking)]
+pub struct UpdateBooking {
+    pub reason: Option<String>,
+    /// 0 = Morning, 1 = Afternoon, 2 = Day
+    pub duration: Option<i32>,
+    /// Pending, Rejected, Approved
+    pub status: Option<String>,
+    /// YYYY-MM-DD
+    pub date: Option<String>,
+}
+
 #[derive(
     Queryable, PartialEq, Selectable, Insertable, Serialize, Deserialize, Debug, AsChangeset,
 )]
@@ -17,6 +30,7 @@ pub struct Booking {
     pub reason: String,
     /// 0 = Morning, 1 = Afternoon, 2 = Day
     pub duration: i32,
+    /// Pending, Rejected, Approved
     pub status: String,
     /// YYYY-MM-DD
     pub date: String,
@@ -32,6 +46,7 @@ pub struct SerializeBooking {
     pub reason: String,
     /// 0 = Morning, 1 = Afternoon, 2 = Day
     pub duration: i32,
+    /// Pending, Rejected, Approved
     pub status: String,
     /// YYYY-MM-DD
     pub date: String,
@@ -137,5 +152,17 @@ impl Booking {
         diesel::delete(booking::table.filter(booking::id.eq(id)))
             .execute(&mut conn())
             .is_ok()
+    }
+
+    pub fn update(id: i32, update_booking: UpdateBooking) -> Option<Booking> {
+        diesel::update(booking::table.filter(booking::id.eq(id)))
+            .set(&update_booking)
+            .execute(&mut conn())
+            .ok()?;
+
+        booking::table
+            .filter(booking::id.eq(id))
+            .first(&mut conn())
+            .ok()
     }
 }

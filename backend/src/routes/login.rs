@@ -25,6 +25,7 @@ pub struct LoginResponse {
 #[openapi(tag = "Login")]
 #[post("/login", data = "<login>")]
 #[allow(clippy::missing_panics_doc)]
+/// Login with email and password
 pub fn post_login(login: Json<Login>) -> Result<Json<LoginResponse>, Status> {
     info!("Login attempt: {:?}", login.email);
 
@@ -63,6 +64,9 @@ pub struct Register {
 #[openapi(tag = "Login")]
 #[post("/register", data = "<register>")]
 #[allow(clippy::missing_panics_doc)]
+/// Register with first name, last name, email and password.
+///
+/// First user is automatically an admin
 pub fn post_register(register: Json<Register>) -> Result<String, Status> {
     info!("POST /register");
 

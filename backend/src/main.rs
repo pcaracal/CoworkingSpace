@@ -4,10 +4,10 @@ pub mod routes;
 pub mod schema;
 pub mod util;
 
-use crate::routes::bookings::delete_bookings;
-use crate::routes::bookings::{get_bookings, post_bookings};
-use crate::routes::login::post_login;
-use crate::routes::login::post_register;
+use crate::routes::{
+    bookings::{delete_bookings, get_bookings, patch_bookings, post_bookings},
+    login::{post_login, post_register},
+};
 use dotenvy::dotenv;
 use rocket_cors::{AllowedHeaders, AllowedOrigins};
 use rocket_okapi::{
@@ -16,7 +16,7 @@ use rocket_okapi::{
 };
 use routes::bookings::{
     okapi_add_operation_for_delete_bookings_, okapi_add_operation_for_get_bookings_,
-    okapi_add_operation_for_post_bookings_,
+    okapi_add_operation_for_patch_bookings_, okapi_add_operation_for_post_bookings_,
 };
 use routes::login::{okapi_add_operation_for_post_login_, okapi_add_operation_for_post_register_};
 use util::{load_test_data, setup_logger};
@@ -54,7 +54,8 @@ fn rocket() -> _ {
                 post_register,
                 get_bookings,
                 post_bookings,
-                delete_bookings
+                delete_bookings,
+                patch_bookings
             ],
         )
         .mount(
