@@ -1,7 +1,9 @@
 use diesel::{prelude::*, ExpressionMethods, QueryDsl, RunQueryDsl};
+use rocket_okapi::JsonSchema;
 use serde::{Deserialize, Serialize};
 
 use crate::{schema::booking, util::conn};
+use rocket_okapi::okapi::schemars;
 
 use super::{room::Room, user::User};
 
@@ -20,11 +22,11 @@ pub struct Booking {
     pub date: String,
     pub fk_room_id: i32,
     pub fk_user_id: i32,
-    pub created_at: Option<chrono::NaiveDateTime>,
+    pub created_at: Option<String>,
 }
 
 #[allow(clippy::module_name_repetitions)]
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(JsonSchema, Serialize, Deserialize, Debug)]
 pub struct SerializeBooking {
     pub id: Option<i32>,
     pub reason: String,
@@ -35,7 +37,7 @@ pub struct SerializeBooking {
     pub date: String,
     pub room: Room,
     pub user: User,
-    pub created_at: Option<chrono::NaiveDateTime>,
+    pub created_at: Option<String>,
 }
 
 impl SerializeBooking {

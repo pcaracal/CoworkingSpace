@@ -9,7 +9,11 @@ use jsonwebtoken::{DecodingKey, EncodingKey, Validation};
 use rocket::request::{FromRequest, Outcome};
 use rocket::Request;
 use rocket_http::Status;
+use rocket_okapi::{gen::OpenApiGenerator, okapi::schemars, request::RequestHeaderInput};
+use rocket_okapi::{okapi::schemars::JsonSchema, request::OpenApiFromRequest};
 use serde::{Deserialize, Serialize};
+
+use crate::models::user::User;
 
 #[allow(clippy::missing_panics_doc)]
 pub fn hash_password(password: &str) -> String {
@@ -31,6 +35,7 @@ pub fn verify_password(password: &str, password_hash: &str) -> bool {
         .is_ok()
 }
 
+#[derive(JsonSchema, Serialize, Deserialize, Debug)]
 pub struct Token<'r>(pub &'r str);
 
 #[rocket::async_trait]
@@ -46,6 +51,16 @@ impl<'r> FromRequest<'r> for Token<'r> {
             Some(key) if is_valid(key) => rocket::outcome::Outcome::Success(Token(key)),
             Some(_) | None => Outcome::Error((Status::Unauthorized, ())),
         }
+    }
+}
+
+impl<'r> OpenApiFromRequest<'r> for Token<'r> {
+    fn from_request_input(
+        _gen: &mut OpenApiGenerator,
+        _name: String,
+        _required: bool,
+    ) -> rocket_okapi::Result<RequestHeaderInput> {
+        Ok(RequestHeaderInput::None)
     }
 }
 
@@ -91,4 +106,10 @@ pub fn decode_token(token: &str) -> Option<i32> {
     };
 
     token_data.claims.sub.parse::<i32>().ok()
+}
+
+#[must_use]
+pub fn user_from_token(token: &str) -> Option<User> {
+    let id = decode_token(token)?;
+    User::by_id(id)
 }

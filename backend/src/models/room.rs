@@ -1,10 +1,19 @@
 use diesel::{prelude::*, ExpressionMethods, QueryDsl, RunQueryDsl};
+use rocket_okapi::{okapi::schemars, JsonSchema};
 use serde::{Deserialize, Serialize};
 
 use crate::{schema::room, util::conn};
 
 #[derive(
-    Queryable, PartialEq, Selectable, Insertable, Serialize, Deserialize, Debug, AsChangeset,
+    JsonSchema,
+    Queryable,
+    PartialEq,
+    Selectable,
+    Insertable,
+    Serialize,
+    Deserialize,
+    Debug,
+    AsChangeset,
 )]
 #[diesel(table_name = crate::schema::room)]
 #[diesel(check_for_backend(diesel::sqlite::Sqlite))]

@@ -4,6 +4,7 @@ pub mod routes;
 pub mod schema;
 pub mod util;
 
+use crate::routes::bookings::get_bookings;
 use crate::routes::login::post_login;
 use crate::routes::login::post_register;
 use dotenvy::dotenv;
@@ -12,6 +13,7 @@ use rocket_okapi::{
     openapi_get_routes,
     swagger_ui::{make_swagger_ui, SwaggerUIConfig},
 };
+use routes::bookings::okapi_add_operation_for_get_bookings_;
 use routes::login::{okapi_add_operation_for_post_login_, okapi_add_operation_for_post_register_};
 use util::{load_test_data, setup_logger};
 
@@ -41,7 +43,10 @@ fn rocket() -> _ {
 
     rocket::build()
         .attach(cors)
-        .mount("/", openapi_get_routes![post_login, post_register])
+        .mount(
+            "/",
+            openapi_get_routes![post_login, post_register, get_bookings],
+        )
         .mount(
             "/swagger-ui/",
             make_swagger_ui(&SwaggerUIConfig {

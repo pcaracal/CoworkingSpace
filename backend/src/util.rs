@@ -56,10 +56,10 @@ pub fn load_test_data() {
     let b = Booking::create("Reason 1", 0, "2024-07-11", 1, 1);
     info!("{b:?}");
     info!("{:?}", Booking::create("Reason 2", 1, "2024-07-11", 1, 1));
-    info!("{:?}", Booking::create("Reason 3", 2, "2024-07-12", 1, 1));
+    info!("{:?}", Booking::create("Reason 3", 2, "2024-07-12", 1, 2));
     info!("{:?}", Booking::create("Reason 4", 2, "2024-07-12", 2, 1));
-    info!("{:?}", Booking::create("Reason 5", 0, "2024-07-13", 1, 1));
-    info!("{:?}", Booking::create("Reason 6", 1, "2024-07-13", 1, 1));
+    info!("{:?}", Booking::create("Reason 5", 0, "2024-07-13", 1, 2));
+    info!("{:?}", Booking::create("Reason 6", 1, "2024-07-13", 1, 2));
     warn!("Test bookings loaded");
 
     warn!("Test booking");
