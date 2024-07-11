@@ -2,9 +2,9 @@ use std::borrow::Borrow;
 
 use rocket::{response::status, serde::json::Json};
 use rocket_http::Status;
+use rocket_okapi::okapi::schemars;
 use rocket_okapi::okapi::schemars::JsonSchema;
 use rocket_okapi::openapi;
-use rocket_okapi::{okapi::schemars, OpenApiFromRequest};
 use serde::{Deserialize, Serialize};
 
 use crate::{auth, models::user::User};
