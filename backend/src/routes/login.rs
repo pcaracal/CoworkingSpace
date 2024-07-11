@@ -15,13 +15,17 @@ pub struct Login {
 
 #[openapi(tag = "Login")]
 #[post("/login", data = "<login>")]
-pub fn post_login(login: Json<Login>) -> (Status, String) {
+#[allow(clippy::missing_panics_doc)]
+pub fn post_login(login: Json<Login>) -> (Status, Option<String>) {
     let users = User::all();
     for u in users {
         if u.email == login.email && auth::verify_password(&login.password, &u.password) {
-            return (Status::Ok, "login".to_string());
+            match auth::encode_token(u.id.unwrap()) {
+                Some(token) => return (Status::Ok, Some(token)),
+                None => return (Status::InternalServerError, None),
+            }
         }
     }
 
-    (Status::Unauthorized, "Unauthorized".to_string())
+    (Status::Unauthorized, None)
 }
