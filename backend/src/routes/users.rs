@@ -85,3 +85,28 @@ pub fn put_users(id: i32, post_user: Json<PostUser>, token: Token) -> Result<Jso
         None => Err(Status::InternalServerError),
     }
 }
+
+#[allow(clippy::missing_errors_doc, clippy::module_name_repetitions)]
+#[openapi(tag = "Users")]
+#[delete("/users/<id>")]
+/// Only accessible by admins
+pub fn delete_users(id: i32, token: Token) -> Result<Status, Status> {
+    let Some(user) = auth::user_from_token(token.0) else {
+        return Err(Status::Unauthorized);
+    };
+    info!("PATCH /users called by user: {user:?}");
+
+    if !user.is_admin.unwrap_or_default() {
+        return Err(Status::Unauthorized);
+    }
+
+    if User::by_id(id).is_none() {
+        return Ok(Status::NoContent);
+    }
+
+    if User::delete(id) {
+        Ok(Status::NoContent)
+    } else {
+        Err(Status::InternalServerError)
+    }
+}

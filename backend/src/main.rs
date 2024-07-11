@@ -4,6 +4,7 @@ pub mod routes;
 pub mod schema;
 pub mod util;
 
+use crate::routes::users::delete_users;
 use crate::routes::users::get_users;
 use crate::routes::users::post_users;
 use crate::routes::users::put_users;
@@ -18,6 +19,7 @@ use rocket_okapi::{
     swagger_ui::{make_swagger_ui, SwaggerUIConfig},
 };
 use routes::login::{okapi_add_operation_for_post_login_, okapi_add_operation_for_post_register_};
+use routes::users::okapi_add_operation_for_delete_users_;
 use routes::users::okapi_add_operation_for_post_users_;
 use routes::users::okapi_add_operation_for_put_users_;
 use routes::{
@@ -67,6 +69,7 @@ fn rocket() -> _ {
                 get_users,
                 post_users,
                 put_users,
+                delete_users,
             ],
         )
         .mount(

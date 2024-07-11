@@ -132,4 +132,11 @@ impl User {
             .first(&mut conn())
             .ok()
     }
+
+    #[must_use]
+    pub fn delete(id: i32) -> bool {
+        diesel::delete(schema::user::table.filter(user::id.eq(id)))
+            .execute(&mut conn())
+            .is_ok()
+    }
 }
