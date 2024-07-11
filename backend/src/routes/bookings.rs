@@ -29,7 +29,7 @@ pub fn get_bookings(token: Token) -> Result<Json<Vec<SerializeBooking>>, Status>
         return Err(Status::Unauthorized);
     };
 
-    info!("GET /bookings called by user: {:?}", user.email);
+    info!("GET /bookings called by user: {user:?}");
 
     let bookings = match user.is_admin {
         Some(true) => Booking::all(),
@@ -70,10 +70,7 @@ pub fn post_bookings(
     let Some(user) = auth::user_from_token(token.0) else {
         return Err(Status::Unauthorized);
     };
-    info!(
-        "POST /bookings {:?} called by user: {:?}",
-        post_booking, user.email
-    );
+    info!("POST /bookings {post_booking:?} called by user: {user:?}");
 
     if Room::by_id(post_booking.room_id).is_none() {
         // room not found
@@ -118,7 +115,7 @@ pub fn delete_bookings(id: i32, token: Token) -> Result<Status, Status> {
     let Some(user) = auth::user_from_token(token.0) else {
         return Err(Status::Unauthorized);
     };
-    info!("DELETE /bookings/{id:?} called by user: {:?}", user.email);
+    info!("DELETE /bookings/{id:?} called by user: {user:?}");
 
     let Some(booking) = Booking::by_id(id) else {
         return Ok(Status::NoContent);
@@ -177,7 +174,7 @@ pub fn patch_bookings(
     let Some(user) = auth::user_from_token(token.0) else {
         return Err(Status::Unauthorized);
     };
-    info!("PATCH /bookings/{id:?} called by user: {:?}", user.email);
+    info!("PATCH /bookings/{id:?} called by user: {user:?}");
 
     if !user.is_admin.unwrap_or_default() {
         return Err(Status::Forbidden);
