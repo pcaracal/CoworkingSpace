@@ -12,6 +12,17 @@ use crate::{
     util::conn,
 };
 
+#[allow(clippy::module_name_repetitions)]
+#[derive(JsonSchema, Serialize, Deserialize, Debug, AsChangeset)]
+#[diesel(table_name = crate::schema::user)]
+pub struct PostUser {
+    pub is_admin: bool,
+    pub first_name: String,
+    pub last_name: String,
+    pub email: String,
+    pub password: String,
+}
+
 #[derive(
     Queryable,
     PartialEq,
@@ -107,5 +118,18 @@ impl User {
     #[must_use]
     pub fn count() -> Option<i64> {
         schema::user::table.count().get_result(&mut conn()).ok()
+    }
+
+    #[must_use]
+    pub fn update(id: i32, post_user: PostUser) -> Option<User> {
+        diesel::update(schema::user::table.filter(user::id.eq(id)))
+            .set(&post_user)
+            .execute(&mut conn())
+            .ok()?;
+
+        schema::user::table
+            .filter(user::id.eq(id))
+            .first(&mut conn())
+            .ok()
     }
 }

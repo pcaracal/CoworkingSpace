@@ -1,13 +1,10 @@
 use rocket::serde::json::Json;
 use rocket_http::Status;
-use rocket_okapi::okapi::schemars;
-use rocket_okapi::okapi::schemars::JsonSchema;
 use rocket_okapi::openapi;
-use serde::{Deserialize, Serialize};
 
 use crate::{
     auth::{self, Token},
-    models::user::User,
+    models::user::{PostUser, User},
 };
 
 #[allow(clippy::missing_errors_doc, clippy::module_name_repetitions)]
@@ -26,16 +23,6 @@ pub fn get_users(token: Token) -> Result<Json<Vec<User>>, Status> {
     } else {
         Err(Status::Unauthorized)
     }
-}
-
-#[allow(clippy::module_name_repetitions)]
-#[derive(JsonSchema, Serialize, Deserialize, Debug)]
-pub struct PostUser {
-    pub is_admin: bool,
-    pub first_name: String,
-    pub last_name: String,
-    pub email: String,
-    pub password: String,
 }
 
 #[allow(clippy::missing_errors_doc, clippy::module_name_repetitions)]
@@ -65,6 +52,32 @@ pub fn post_users(post_user: Json<PostUser>, token: Token) -> Result<Json<User>,
     );
 
     match new_user {
+        Some(u) => Ok(Json(u)),
+        None => Err(Status::InternalServerError),
+    }
+}
+
+#[allow(clippy::missing_errors_doc, clippy::module_name_repetitions)]
+#[openapi(tag = "Users")]
+#[put("/users/<id>", data = "<post_user>")]
+/// Only accessible by admins
+pub fn put_users(id: i32, post_user: Json<PostUser>, token: Token) -> Result<Json<User>, Status> {
+    let Some(user) = auth::user_from_token(token.0) else {
+        return Err(Status::Unauthorized);
+    };
+    info!("PATCH /users called by user: {user:?}");
+
+    if !user.is_admin.unwrap_or_default() {
+        return Err(Status::Unauthorized);
+    }
+
+    if User::by_id(id).is_none() {
+        return Err(Status::NotFound);
+    }
+
+    let updated = User::update(id, post_user.0);
+
+    match updated {
         Some(u) => Ok(Json(u)),
         None => Err(Status::InternalServerError),
     }
