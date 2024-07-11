@@ -37,7 +37,7 @@ impl User {
         last_name: &str,
         email: &str,
         password: &str,
-    ) -> User {
+    ) -> Option<User> {
         User::create(
             is_admin,
             first_name,
@@ -54,7 +54,7 @@ impl User {
         last_name: &str,
         email: &str,
         password: &str,
-    ) -> User {
+    ) -> Option<User> {
         let new_user = User {
             id: None,
             is_admin: Some(is_admin),
@@ -68,24 +68,24 @@ impl User {
         diesel::insert_into(schema::user::table)
             .values(&new_user)
             .execute(&mut conn())
-            .unwrap();
+            .ok()?;
 
         crate::schema::user::table
             .filter(user::email.eq(email))
             .first(&mut conn())
-            .unwrap()
+            .ok()
     }
 
     #[must_use]
     pub fn all() -> Vec<User> {
-        schema::user::table.load(&mut conn()).unwrap()
+        schema::user::table.load(&mut conn()).unwrap_or_default()
     }
 
     #[must_use]
-    pub fn by_id(id: i32) -> User {
+    pub fn by_id(id: i32) -> Option<User> {
         schema::user::table
             .filter(user::id.eq(id))
             .first(&mut conn())
-            .unwrap()
+            .ok()
     }
 }
