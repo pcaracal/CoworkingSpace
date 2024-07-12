@@ -1,1 +1,31 @@
-<p>login works!</p>
+<article *ngIf="!isRegister">
+  <header>Login</header>
+
+  <body>
+    <form (submit)="onLogin($event)" autocomplete="off">
+      <input type="text" name="email" [(ngModel)]="email" placeholder="Email" />
+      <input type="password" name="password" [(ngModel)]="password" placeholder="Password" />
+      <button type="submit">Login</button>
+    </form>
+  </body>
+
+  <footer>
+    <button class="outline" style="width: 100%;" (click)="isRegister = true">Register</button>
+  </footer>
+</article>
+
+<article *ngIf="isRegister">
+  <header>Register</header>
+
+  <form (submit)="onRegister($event)" autocomplete="off">
+    <input type="text" name="firstName" [(ngModel)]="firstName" placeholder="First name" />
+    <input type="text" name="lastName" [(ngModel)]="lastName" placeholder="Last name" />
+    <input type="text" name="email" [(ngModel)]="email" placeholder="Email" />
+    <input type="password" name="password" [(ngModel)]="password" placeholder="Password" />
+    <button type="submit">Register</button>
+  </form>
+
+  <footer>
+    <button class="outline" style="width: 100%;" (click)="isRegister = false">Login</button>
+  </footer>
+</article>
