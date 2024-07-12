@@ -13,6 +13,8 @@ create table room (
   name text not null
 );
 
+insert into room (name) values ('Room 1'), ('Room 2'), ('Room 3');
+
 create table booking (
   id integer primary key autoincrement,
   reason text not null,
