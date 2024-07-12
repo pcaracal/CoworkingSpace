@@ -67,7 +67,7 @@ pub struct Register {
 /// Register with first name, last name, email and password.
 ///
 /// First user is automatically an admin
-pub fn post_register(register: Json<Register>) -> Result<String, Status> {
+pub fn post_register(register: Json<Register>) -> Result<Json<LoginResponse>, Status> {
     info!("POST /register");
 
     if User::by_email(&register.email).is_some() {
@@ -90,7 +90,12 @@ pub fn post_register(register: Json<Register>) -> Result<String, Status> {
         Some(user) => match auth::encode_token(user.id.unwrap()) {
             Some(token) => {
                 info!("User created: {user:?}");
-                Ok(token)
+                let response = LoginResponse {
+                    user,
+                    token: token.clone(),
+                };
+
+                Ok(Json(response))
             }
             None => Err(Status::InternalServerError),
         },

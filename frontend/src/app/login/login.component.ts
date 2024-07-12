@@ -25,11 +25,24 @@ export class LoginComponent implements OnInit {
   onLogin(event: Event) {
     event.preventDefault();
     console.log("onLogin()", this.email, this.password);
+    if (this.email && this.password) {
+      this.api.postLogin(this.email, this.password).subscribe((response: any) => {
+        console.log("onLogin() response", response);
+        this.api.setToken(response.token);
+      });
+    }
   }
 
   onRegister(event: Event) {
     event.preventDefault();
     console.log("onRegister()", this.firstName, this.lastName, this.email, this.password);
+
+    if (this.firstName && this.lastName && this.email && this.password) {
+      this.api.postRegister(this.firstName, this.lastName, this.email, this.password).subscribe((response: any) => {
+        console.log("onRegister() response", response);
+        this.api.setToken(response.token);
+      });
+    }
   }
 
 }
