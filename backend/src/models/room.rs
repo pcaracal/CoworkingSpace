@@ -4,6 +4,28 @@ use serde::{Deserialize, Serialize};
 
 use crate::{schema::room, util::conn};
 
+use super::booking::Booking;
+
+#[allow(clippy::module_name_repetitions)]
+#[derive(JsonSchema, PartialEq, Serialize, Deserialize, Debug)]
+pub struct RoomResponse {
+    pub room: Room,
+    pub bookings: Vec<Booking>,
+}
+
+impl RoomResponse {
+    #[must_use]
+    pub fn new() -> Vec<Self> {
+        let rooms = Room::all();
+        let mut room_responses = Vec::new();
+        for r in rooms {
+            let bookings = Booking::by_room_id(r.id.unwrap_or_default());
+            room_responses.push(RoomResponse { room: r, bookings });
+        }
+        room_responses
+    }
+}
+
 #[derive(
     JsonSchema,
     Queryable,

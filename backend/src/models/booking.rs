@@ -21,7 +21,15 @@ pub struct UpdateBooking {
 }
 
 #[derive(
-    Queryable, PartialEq, Selectable, Insertable, Serialize, Deserialize, Debug, AsChangeset,
+    JsonSchema,
+    Queryable,
+    PartialEq,
+    Selectable,
+    Insertable,
+    Serialize,
+    Deserialize,
+    Debug,
+    AsChangeset,
 )]
 #[diesel(table_name = crate::schema::booking)]
 #[diesel(check_for_backend(diesel::sqlite::Sqlite))]
@@ -130,6 +138,14 @@ impl Booking {
     pub fn by_date(date: &str) -> Vec<Booking> {
         booking::table
             .filter(booking::date.eq(date))
+            .load(&mut conn())
+            .unwrap_or_default()
+    }
+
+    #[must_use]
+    pub fn by_room_id(id: i32) -> Vec<Booking> {
+        booking::table
+            .filter(booking::fk_room_id.eq(id))
             .load(&mut conn())
             .unwrap_or_default()
     }
