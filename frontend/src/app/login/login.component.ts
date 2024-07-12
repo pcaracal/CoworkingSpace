@@ -20,12 +20,18 @@ export class LoginComponent implements OnInit {
 
   constructor(private api: ApiService) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.api.getLogin().subscribe((response: any) => {
+      console.log("getLogin() response", response);
+    });
+  }
 
   onLogin(event: Event) {
     event.preventDefault();
     console.log("onLogin()", this.email, this.password);
     if (this.email && this.password) {
+      this.api.setToken("");
+
       this.api.postLogin(this.email, this.password).subscribe((response: any) => {
         console.log("onLogin() response", response);
         this.api.setToken(response.token);
@@ -38,6 +44,8 @@ export class LoginComponent implements OnInit {
     console.log("onRegister()", this.firstName, this.lastName, this.email, this.password);
 
     if (this.firstName && this.lastName && this.email && this.password) {
+      this.api.setToken("");
+
       this.api.postRegister(this.firstName, this.lastName, this.email, this.password).subscribe((response: any) => {
         console.log("onRegister() response", response);
         this.api.setToken(response.token);

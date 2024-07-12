@@ -4,6 +4,7 @@ pub mod routes;
 pub mod schema;
 pub mod util;
 
+use crate::routes::login::get_login;
 use crate::routes::rooms::get_rooms;
 use crate::routes::users::delete_users;
 use crate::routes::users::get_users;
@@ -19,6 +20,7 @@ use rocket_okapi::{
     openapi_get_routes,
     swagger_ui::{make_swagger_ui, SwaggerUIConfig},
 };
+use routes::login::okapi_add_operation_for_get_login_;
 use routes::login::{okapi_add_operation_for_post_login_, okapi_add_operation_for_post_register_};
 use routes::rooms::okapi_add_operation_for_get_rooms_;
 use routes::users::okapi_add_operation_for_delete_users_;
@@ -64,6 +66,7 @@ fn rocket() -> _ {
             openapi_get_routes![
                 post_login,
                 post_register,
+                get_login,
                 get_bookings,
                 post_bookings,
                 delete_bookings,

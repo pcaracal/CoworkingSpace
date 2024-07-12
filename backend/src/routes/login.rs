@@ -7,7 +7,10 @@ use rocket_okapi::okapi::schemars::JsonSchema;
 use rocket_okapi::openapi;
 use serde::{Deserialize, Serialize};
 
-use crate::{auth, models::user::User};
+use crate::{
+    auth::{self, Token},
+    models::user::User,
+};
 
 #[derive(JsonSchema, Serialize, Deserialize, Debug)]
 pub struct Login {
@@ -101,4 +104,18 @@ pub fn post_register(register: Json<Register>) -> Result<Json<LoginResponse>, St
         },
         None => Err(Status::InternalServerError),
     }
+}
+
+#[openapi(tag = "Login")]
+#[get("/login")]
+#[allow(clippy::missing_panics_doc)]
+/// Check login status
+pub fn get_login(token: Token) -> Result<Json<User>, Status> {
+    let Some(user) = auth::user_from_token(token.0) else {
+        return Err(Status::Unauthorized);
+    };
+
+    info!("GET /login called by user: {user:?}");
+
+    Ok(Json(user))
 }
