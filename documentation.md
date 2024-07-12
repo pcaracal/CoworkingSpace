@@ -4,7 +4,11 @@ geometry: margin=1.5cm
 
 # Dokumentation M223 LB-B
 
-von Peter Schreivogel
+###### von Peter Schreivogel
+
+### Git
+
+[https://github.com/pcaracal/CoworkingSpace](https://github.com/pcaracal/CoworkingSpace)
 
 \pagebreak
 
@@ -29,6 +33,8 @@ von Peter Schreivogel
 \pagebreak
 
 ## 1.2. Persona
+
+Quelle für Bilder: [https://thispersondoesnotexist.com/](https://thispersondoesnotexist.com/)
 
 ### P1: Besucher
 
@@ -89,7 +95,11 @@ von Peter Schreivogel
 |                        |                | Fehler: 401: Unauthorized                        |
 | POST (Besucher)        | /login         | Erfolge: 200: Ok                                 |
 |                        |                | Fehler: 401: Unauthorized                        |
+|                        |                | 422: Unprocessable Entity                        |
 | POST (Besucher)        | /register      | Erfolge: 200: Ok                                 |
 |                        |                | Fehler: 409: Conflict (Benutzer existiert schon) |
+|                        |                | 422: Unprocessable Entity                        |
+| GET (Mitglied)         | /rooms         | Erfolge: 200: Ok                                 |
+|                        |                | Fehler: 401: Unauthorized                        |
 
 ![Sequenzdiagramm](img/sequence.svg)
