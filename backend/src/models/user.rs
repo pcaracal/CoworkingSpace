@@ -23,6 +23,16 @@ pub struct PostUser {
     pub password: String,
 }
 
+#[allow(clippy::module_name_repetitions)]
+#[derive(JsonSchema, Serialize, Deserialize, Debug, AsChangeset)]
+#[diesel(table_name = crate::schema::user)]
+pub struct PutUser {
+    pub is_admin: bool,
+    pub first_name: String,
+    pub last_name: String,
+    pub email: String,
+}
+
 #[derive(
     Queryable,
     PartialEq,
@@ -121,9 +131,9 @@ impl User {
     }
 
     #[must_use]
-    pub fn update(id: i32, post_user: PostUser) -> Option<User> {
+    pub fn update(id: i32, put_user: &PutUser) -> Option<User> {
         diesel::update(schema::user::table.filter(user::id.eq(id)))
-            .set(&post_user)
+            .set(put_user)
             .execute(&mut conn())
             .ok()?;
 

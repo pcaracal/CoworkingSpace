@@ -4,7 +4,7 @@ use rocket_okapi::openapi;
 
 use crate::{
     auth::{self, Token},
-    models::user::{PostUser, User},
+    models::user::{PostUser, PutUser, User},
 };
 
 #[allow(clippy::missing_errors_doc, clippy::module_name_repetitions)]
@@ -59,9 +59,9 @@ pub fn post_users(post_user: Json<PostUser>, token: Token) -> Result<Json<User>,
 
 #[allow(clippy::missing_errors_doc, clippy::module_name_repetitions)]
 #[openapi(tag = "Users")]
-#[put("/users/<id>", data = "<post_user>")]
+#[put("/users/<id>", data = "<put_user>")]
 /// Only accessible by admins
-pub fn put_users(id: i32, post_user: Json<PostUser>, token: Token) -> Result<Json<User>, Status> {
+pub fn put_users(id: i32, put_user: Json<PutUser>, token: Token) -> Result<Json<User>, Status> {
     let Some(user) = auth::user_from_token(token.0) else {
         return Err(Status::Unauthorized);
     };
@@ -75,10 +75,7 @@ pub fn put_users(id: i32, post_user: Json<PostUser>, token: Token) -> Result<Jso
         return Err(Status::NotFound);
     }
 
-    let mut post_user = post_user.0;
-    post_user.password = auth::hash_password(&post_user.password);
-
-    let updated = User::update(id, post_user);
+    let updated = User::update(id, &put_user.0);
 
     match updated {
         Some(u) => Ok(Json(u)),
