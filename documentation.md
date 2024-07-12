@@ -103,3 +103,13 @@ Quelle für Bilder: [https://thispersondoesnotexist.com/](https://thispersondoes
 |                        |                | Fehler: 401: Unauthorized                        |
 
 ![Sequenzdiagramm](img/sequence.svg)
+
+\pagebreak
+
+![Git Log 1](img/gitlog1.png)
+
+\pagebreak
+
+![Git Log 2](img/gitlog2.png)
+
+![Swagger](img/swagger.png)
