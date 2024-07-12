@@ -2,6 +2,8 @@
 *.sqlite3
 *.txt
 
+!SwaggerUI.pdf
+
 # Created by https://www.toptal.com/developers/gitignore/api/rust,angular
 # Edit at https://www.toptal.com/developers/gitignore?templates=rust,angular
 

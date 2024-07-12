@@ -76,10 +76,10 @@ pub fn load_test_data() {
     );
     warn!("Test users loaded");
 
-    warn!("Loading test rooms");
-    info!("{:?}", Room::create("Room 1"));
-    info!("{:?}", Room::create("Room 2"));
-    warn!("Test rooms loaded");
+    // warn!("Loading test rooms");
+    // info!("{:?}", Room::create("Room 1"));
+    // info!("{:?}", Room::create("Room 2"));
+    // warn!("Test rooms loaded");
 
     warn!("Loading test bookings");
     let b = Booking::create("Reason 1", 0, "2024-07-11", 1, 1);
