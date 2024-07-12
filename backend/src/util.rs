@@ -1,4 +1,7 @@
-use std::{env, process::Command};
+use std::{
+    env::{self, args},
+    process::Command,
+};
 
 use diesel::{Connection, SqliteConnection};
 use log::LevelFilter;
@@ -29,9 +32,34 @@ pub fn conn() -> SqliteConnection {
     SqliteConnection::establish(&url).expect("Error connecting to {url}")
 }
 
+pub fn init_data() {
+    let args = args().map(|x| x.to_lowercase()).collect::<Vec<String>>();
+
+    for a in args {
+        if a.contains("clean") {
+            warn!("##################################################");
+            warn!("Running with argument clean");
+            warn!("Cleaning database");
+            info!(
+                "{:?}",
+                Command::new("diesel").args(["migration", "redo"]).output()
+            );
+            warn!("Database cleaned");
+            warn!("##################################################");
+        }
+
+        if a.contains("test") {
+            warn!("##################################################");
+            warn!("Running with argument test");
+            load_test_data();
+            warn!("Test data loaded");
+            warn!("##################################################");
+        }
+    }
+}
+
 #[allow(clippy::missing_panics_doc)]
 pub fn load_test_data() {
-    warn!("Running in debug mode");
     warn!("Deleting all data");
     info!(
         "{:?}",

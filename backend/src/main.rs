@@ -4,6 +4,8 @@ pub mod routes;
 pub mod schema;
 pub mod util;
 
+use std::env;
+
 use crate::routes::login::get_login;
 use crate::routes::rooms::get_rooms;
 use crate::routes::users::delete_users;
@@ -33,6 +35,7 @@ use routes::{
     },
     users::okapi_add_operation_for_get_users_,
 };
+use util::init_data;
 use util::{load_test_data, setup_logger};
 
 #[macro_use]
@@ -46,9 +49,7 @@ fn rocket() -> _ {
     setup_logger();
     dotenv().ok();
 
-    #[cfg(debug_assertions)]
-    load_test_data();
-    // #[cfg(not(debug_assertions))]
+    init_data();
 
     info!("Starting rocket");
     let cors = rocket_cors::CorsOptions::default()
