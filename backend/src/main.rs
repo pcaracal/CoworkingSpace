@@ -47,9 +47,8 @@ fn rocket() -> _ {
     dotenv().ok();
 
     #[cfg(debug_assertions)]
-    info!("Running in debug mode");
     load_test_data();
-    #[cfg(not(debug_assertions))]
+    // #[cfg(not(debug_assertions))]
 
     info!("Starting rocket");
     let cors = rocket_cors::CorsOptions::default()

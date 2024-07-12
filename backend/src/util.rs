@@ -31,6 +31,7 @@ pub fn conn() -> SqliteConnection {
 
 #[allow(clippy::missing_panics_doc)]
 pub fn load_test_data() {
+    warn!("Running in debug mode");
     warn!("Deleting all data");
     info!(
         "{:?}",
